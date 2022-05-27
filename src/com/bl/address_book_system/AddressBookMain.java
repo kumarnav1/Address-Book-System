@@ -11,10 +11,10 @@ public class AddressBookMain {
         ProcessAddressBook processAddressBook = new ProcessAddressBook();
 
         print.printChoices();
-        System.out.print(" \n Enter 1 for Adding a contact details, 2 for Printing details, 3 and other to terminate : ");
+        print.printFirstChoice();
         print.choiceOfUsers = scanner.nextInt();
 
-        while (print.choiceOfUsers > 0 && print.choiceOfUsers < 4) {
+        while (print.choiceOfUsers > 0 && print.choiceOfUsers < 5) {
 
             switch (print.choiceOfUsers) {
 
@@ -28,7 +28,10 @@ public class AddressBookMain {
                     processAddressBook.printingDetails();
                     print.takingInputOverCases();
                     break;
-
+                case PrintingMessagesOnConsole.EDIT_DETAILS:
+                    processAddressBook.editDetails();
+                    print.takingInputOverCases();
+                    break;
                 case PrintingMessagesOnConsole.EXIT_PROGRAM:
                     print.printTermination();
                     return;
