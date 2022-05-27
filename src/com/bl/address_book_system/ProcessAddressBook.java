@@ -94,6 +94,16 @@ public class ProcessAddressBook {
         System.out.println("\n Your details are successfully edited in Address book");
     }
 
+    void deleteDetails() {
+        System.out.println("To delete the details");
+        AddressBookContacts varDelete = isDetailsMatched();
+        if (varDelete == null)
+            return;
+
+        contactArray.remove(varDelete);
+        System.out.println("Record was Deleted");
+    }
+
     void printDetails() {
 
         System.out.println(" These are the Contact Details \n");

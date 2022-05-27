@@ -14,7 +14,7 @@ public class AddressBookMain {
         print.printFirstChoice();
         print.choiceOfUsers = scanner.nextInt();
 
-        while (print.choiceOfUsers > 0 && print.choiceOfUsers < 5) {
+        while (print.choiceOfUsers > 0 && print.choiceOfUsers < 6) {
 
             switch (print.choiceOfUsers) {
 
@@ -23,13 +23,16 @@ public class AddressBookMain {
                     processAddressBook.printDetails();
                     print.takingInputOverCases();
                     break;
-
                 case PrintingMessagesOnConsole.PRINT_DETAILS:
                     processAddressBook.printingDetails();
                     print.takingInputOverCases();
                     break;
                 case PrintingMessagesOnConsole.EDIT_DETAILS:
                     processAddressBook.editDetails();
+                    print.takingInputOverCases();
+                    break;
+                case PrintingMessagesOnConsole.DELETE_DETAILS:
+                    processAddressBook.deleteDetails();
                     print.takingInputOverCases();
                     break;
                 case PrintingMessagesOnConsole.EXIT_PROGRAM:
