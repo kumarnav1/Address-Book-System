@@ -11,6 +11,19 @@ public class AddressBookContacts {
     private long phoneNumber;
     private String email;
 
+    public AddressBookContacts(String firstName, String lastName, String address, String city, String state, int zipCode, long phoneNumber, String email) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+
+    }
+
     public String getFirstName() {
 
         return firstName;
@@ -21,19 +34,9 @@ public class AddressBookContacts {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-
-        return lastName;
-    }
-
     public void setLastName(String lastName) {
 
         this.lastName = lastName;
-    }
-
-    public String getAddress() {
-
-        return address;
     }
 
     public void setAddress(String address) {
@@ -41,29 +44,15 @@ public class AddressBookContacts {
         this.address = address;
     }
 
-    public String getCity() {
-
-        return city;
-    }
-
     public void setCity(String city) {
 
         this.city = city;
     }
 
-    public String getState() {
-
-        return state;
-    }
 
     public void setState(String state) {
 
         this.state = state;
-    }
-
-    public int getZipCode() {
-
-        return zipCode;
     }
 
     public void setZipCode(int zipCode) {
@@ -71,22 +60,25 @@ public class AddressBookContacts {
         this.zipCode = zipCode;
     }
 
-    public long getPhoneNumber() {
-
-        return phoneNumber;
-    }
-
     public void setPhoneNumber(long phoneNumber) {
 
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
 
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return " First Name   = " + firstName +
+                "\n Last Name    = " + lastName +
+                "\n Address      = " + address +
+                "\n City         = " + city +
+                "\n State        = " + state +
+                "\n Zip Code     = " + zipCode +
+                "\n Phone Number = " + phoneNumber +
+                "\n Email        = " + email ;
     }
 }

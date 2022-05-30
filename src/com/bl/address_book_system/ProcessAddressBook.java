@@ -6,52 +6,56 @@ import java.util.Scanner;
 
 public class ProcessAddressBook {
 
+    static final int ADD_DETAILS = 1;
+    static final int PRINT_DETAILS = 2;
+    static final int EDIT_DETAILS = 3;
+    static final int DELETE_DETAILS = 4;
+    static final int EXIT_PROGRAM = 5;
+
+    public int choiceOfUsers;
+
     Scanner scanner = new Scanner(System.in);
-    List<AddressBookContacts> contactArray = new ArrayList<AddressBookContacts>();
+    List<AddressBookContacts> contactArray = new ArrayList<>();
     AddressBookContacts addressBookContacts;
+    Scanner choice = new Scanner(System.in);
 
     void addDetails() {
-        addressBookContacts = new AddressBookContacts();
+        System.out.println("\n You have chosen to Add a new contact details.\n");
         System.out.print("Enter contact's first name : ");
         String firstName = scanner.next();
-        addressBookContacts.setFirstName(firstName);
 
         System.out.print("Enter contact's last name : ");
         String lastName = scanner.next();
-        addressBookContacts.setLastName(lastName);
 
         System.out.print("Enter contact's address : ");
         scanner.nextLine();
         String address = scanner.nextLine();
-        addressBookContacts.setAddress(address);
 
         System.out.print("Enter contact's city : ");
         String city = scanner.next();
-        addressBookContacts.setCity(city);
 
         System.out.print("Enter contact's state : ");
         String state = scanner.next();
-        addressBookContacts.setState(state);
 
         System.out.print("Enter contact's zip code : ");
         int zipCode = scanner.nextInt();
-        addressBookContacts.setZipCode(zipCode);
 
         System.out.print("Enter contact's phone number : ");
         long phoneNumber = scanner.nextLong();
-        addressBookContacts.setPhoneNumber(phoneNumber);
 
         System.out.print("Enter contact's email : ");
         scanner.nextLine();
         String email = scanner.nextLine();
-        addressBookContacts.setEmail(email);
 
+        addressBookContacts = new AddressBookContacts(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
         contactArray.add(addressBookContacts);
         System.out.println("\n Your details are successfully added in Address book");
+        displayAddedDetails(addressBookContacts);
     }
 
     void editDetails() {
 
+        System.out.println("\n You have chosen to update the existing contact details.\n");
         System.out.println("To edit the details");
         AddressBookContacts varEdit = isDetailsMatched();
         if (varEdit == null)
@@ -95,6 +99,8 @@ public class ProcessAddressBook {
     }
 
     void deleteDetails() {
+
+        System.out.println("\n You have chosen to remove the existing contact details.\n");
         System.out.println("To delete the details");
         AddressBookContacts varDelete = isDetailsMatched();
         if (varDelete == null)
@@ -104,51 +110,61 @@ public class ProcessAddressBook {
         System.out.println("Record was Deleted");
     }
 
-    void printDetails() {
+    void displayAddedDetails(AddressBookContacts toDisplayDetails) {
 
-        System.out.println(" These are the Contact Details \n");
-        System.out.println("Name \t      : " + addressBookContacts.getFirstName() + " " + addressBookContacts.getLastName() + "\n"
-                + "Address       : " + addressBookContacts.getAddress() + "\n" + "City          : " + addressBookContacts.getCity() + "\n"
-                + "State         : " + addressBookContacts.getState() + "\n" + "Zip           : " + addressBookContacts.getZipCode() + "\n"
-                + "Mobile Number : " + addressBookContacts.getPhoneNumber() + "\n" + "EmailId       : " + addressBookContacts.getEmail()
-                + "\n");
+        System.out.println(toDisplayDetails);
     }
 
-    void printingDetails() {
+    void displayPersonDetails() {
 
-        System.out.println("To print the details");
+        System.out.println("\n To print the details");
         AddressBookContacts varPrint = isDetailsMatched();
         if (varPrint == null)
             return;
 
-        System.out.println(" These are the Contact Details \n");
-        System.out.println("Name \t      : " + varPrint.getFirstName() + " " + varPrint.getLastName() + "\n"
-                + "Address       : " + varPrint.getAddress() + "\n" + "City          : " + varPrint.getCity() + "\n"
-                + "State         : " + varPrint.getState() + "\n" + "Zip           : " + varPrint.getZipCode() + "\n"
-                + "Mobile Number : " + varPrint.getPhoneNumber() + "\n" + "EmailId       : " + varPrint.getEmail()
-                + "\n");
+        displayAddedDetails(varPrint);
     }
 
     AddressBookContacts isDetailsMatched() {
 
         System.out.print("Enter the first name of the person : ");
         String editName = scanner.next();
-        AddressBookContacts tempRefVar = null;
-        boolean flag = false;
+        AddressBookContacts tempRefVar;
 
         for (int index = 0; index < contactArray.size(); index++) {
             String name = contactArray.get(index).getFirstName();
             if ((name.equals(editName))) {
                 tempRefVar = contactArray.get(index);
                 System.out.println("\n Match found \n ");
-                flag = true;
+                return tempRefVar;
             }
         }
 
-        if (!(flag)) {
-            System.out.println("Invalid input, Please try again");
-            return null;
-        }
-        return tempRefVar;
+        System.out.println("Invalid input, Please try again");
+        return null;
+    }
+
+    void printChoices() {
+
+        System.out.println("\n \n Welcome to Address Book Program.");
+        System.out.println("These are the actions you can perform in the Address book");
+        System.out.println("1. Adding a new contact details.");
+        System.out.println("2. Printing a existing contact details.");
+        System.out.println("3. Editing a existing contact.");
+        System.out.println("4. Deleting a existing contact.");
+    }
+
+    void displayTermination() {
+
+        System.out.println("Your program is Terminated.");
+    }
+
+
+    public void takingInputOverWhileLoop() {
+
+        printChoices();
+        System.out.println(" \n Enter a number between 1 to 4 to run any one of the functionality and 5 to terminate : \n");
+        System.out.print("your choice : ");
+        choiceOfUsers = choice.nextInt();
     }
 }

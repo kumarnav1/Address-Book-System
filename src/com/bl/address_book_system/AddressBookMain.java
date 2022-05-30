@@ -1,43 +1,35 @@
 package com.bl.address_book_system;
 
-import java.util.Scanner;
-
 public class AddressBookMain {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-        PrintingMessagesOnConsole print = new PrintingMessagesOnConsole();
         ProcessAddressBook processAddressBook = new ProcessAddressBook();
 
-        print.printChoices();
-        print.printFirstChoice();
-        print.choiceOfUsers = scanner.nextInt();
+        while (true) {
 
-        while (print.choiceOfUsers > 0 && print.choiceOfUsers < 6) {
+            processAddressBook.takingInputOverWhileLoop();
 
-            switch (print.choiceOfUsers) {
+            switch (processAddressBook.choiceOfUsers) {
 
-                case PrintingMessagesOnConsole.ADD_DETAILS:
+                case ProcessAddressBook.ADD_DETAILS:
                     processAddressBook.addDetails();
-                    processAddressBook.printDetails();
-                    print.takingInputOverCases();
                     break;
-                case PrintingMessagesOnConsole.PRINT_DETAILS:
-                    processAddressBook.printingDetails();
-                    print.takingInputOverCases();
+                case ProcessAddressBook.PRINT_DETAILS:
+                    processAddressBook.displayPersonDetails();
                     break;
-                case PrintingMessagesOnConsole.EDIT_DETAILS:
+                case ProcessAddressBook.EDIT_DETAILS:
                     processAddressBook.editDetails();
-                    print.takingInputOverCases();
                     break;
-                case PrintingMessagesOnConsole.DELETE_DETAILS:
+                case ProcessAddressBook.DELETE_DETAILS:
                     processAddressBook.deleteDetails();
-                    print.takingInputOverCases();
                     break;
-                case PrintingMessagesOnConsole.EXIT_PROGRAM:
-                    print.printTermination();
+                case ProcessAddressBook.EXIT_PROGRAM:
+                    processAddressBook.displayTermination();
                     return;
+                default:
+                    System.out.println("Please Enter correct input !");
+                    break;
             }
         }
     }
