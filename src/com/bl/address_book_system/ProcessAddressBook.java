@@ -54,15 +54,18 @@ public class ProcessAddressBook {
 
         if (multipleAddressBookMap.containsKey(bookName)) {
             String isFirstName = addressBookContacts.getFirstName();
-            ArrayList<AddressBookContacts> tempMapValue = multipleAddressBookMap.get(bookName);
+            AddressBookContacts isFound = multipleAddressBookMap
+                    .get(bookName)
+                    .stream()
+                    .filter(arrayRef -> arrayRef.getFirstName().equals(isFirstName))
+                    .findFirst()
+                    .orElse(null);
 
-            for (int indexOfArrayList = 0; indexOfArrayList < tempMapValue.size(); indexOfArrayList++) {
-                String name = tempMapValue.get(indexOfArrayList).getFirstName();
-                if (!(name.equals(isFirstName)))
-                    continue;
+            if (isFound != null) {
                 System.out.println("\n Match found, duplicate Entry \n ");
                 return;
             }
+
             System.out.println("Contact not found in the existing address book, No duplicate Entry will be there. \n");
             multipleAddressBookMap.get(bookName).add(addressBookContacts);
             System.out.println("Contact added successfully exiting arrayList and existing book : \"" + bookName + " \"");
@@ -80,9 +83,12 @@ public class ProcessAddressBook {
         System.out.println("\n You have chosen to update the existing contact details.\n");
         System.out.println("To edit the details");
         AddressBookContacts varEdit = isDetailsMatched();
-        if (varEdit == null)
+        if (varEdit == null) {
+            System.out.println("Contact not found in the address book");
             return;
+        }
 
+        System.out.println("\n Match found.\n ");
         System.out.print("Enter contact's first name : ");
         String firstName = scanner.next();
         varEdit.setFirstName(firstName);
@@ -124,9 +130,12 @@ public class ProcessAddressBook {
         System.out.println("\n You have chosen to remove the existing contact details.\n");
         System.out.println("To delete the details");
         AddressBookContacts varDelete = isDetailsMatched();
-        if (varDelete == null)
+        if (varDelete == null) {
+            System.out.println("Contact not found in the address book");
             return;
+        }
 
+        System.out.println("\n Match found.\n ");
         contactArray.remove(varDelete);
         System.out.println("Record was Deleted");
     }
@@ -138,9 +147,11 @@ public class ProcessAddressBook {
     void displayPersonDetails() {
         System.out.println("\n To print the details");
         AddressBookContacts varPrint = isDetailsMatched();
-        if (varPrint == null)
+        if (varPrint == null) {
+            System.out.println("Contact not found in the address book");
             return;
-
+        }
+        System.out.println("\n Match found.\n ");
         displayAddedDetails(varPrint);
     }
 
@@ -151,19 +162,12 @@ public class ProcessAddressBook {
         String bookName = scanner.next();
         System.out.print(" \n Enter the first name of the person : ");
         String enteredName = scanner.next();
-        AddressBookContacts tempRefVar;
-        ArrayList<AddressBookContacts> tempMapValue = multipleAddressBookMap.get(bookName);
-
-        for (int indexOfArrayList = 0; indexOfArrayList < tempMapValue.size(); indexOfArrayList++) {
-            String name = tempMapValue.get(indexOfArrayList).getFirstName();
-            if (!(name.equals(enteredName)))
-                continue;
-            tempRefVar = tempMapValue.get(indexOfArrayList);
-            System.out.println("\n Match found \n ");
-            return tempRefVar;
-        }
-        System.out.println("Contact not found in the address book");
-        return null;
+        return multipleAddressBookMap
+                .get(bookName)
+                .stream()
+                .filter(arrayRef -> arrayRef.getFirstName().equals(enteredName))
+                .findFirst()
+                .orElse(null);
     }
 
     void displayAllAddressBooksName() {
