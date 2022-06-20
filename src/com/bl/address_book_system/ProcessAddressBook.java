@@ -53,6 +53,17 @@ public class ProcessAddressBook {
         String bookName = scanner.next();
 
         if (multipleAddressBookMap.containsKey(bookName)) {
+            String isFirstName = addressBookContacts.getFirstName();
+            ArrayList<AddressBookContacts> tempMapValue = multipleAddressBookMap.get(bookName);
+
+            for (int indexOfArrayList = 0; indexOfArrayList < tempMapValue.size(); indexOfArrayList++) {
+                String name = tempMapValue.get(indexOfArrayList).getFirstName();
+                if (!(name.equals(isFirstName)))
+                    continue;
+                System.out.println("\n Match found, duplicate Entry \n ");
+                return;
+            }
+            System.out.println("Contact not found in the existing address book, No duplicate Entry will be there. \n");
             multipleAddressBookMap.get(bookName).add(addressBookContacts);
             System.out.println("Contact added successfully exiting arrayList and existing book : \"" + bookName + " \"");
         } else {

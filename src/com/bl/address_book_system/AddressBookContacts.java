@@ -1,5 +1,7 @@
 package com.bl.address_book_system;
 
+import java.util.Objects;
+
 public class AddressBookContacts {
 
     private String firstName;
@@ -81,5 +83,18 @@ public class AddressBookContacts {
                 "\n Zip Code     = " + zipCode +
                 "\n Phone Number = " + phoneNumber +
                 "\n Email        = " + email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddressBookContacts that = (AddressBookContacts) o;
+        return firstName.equals(that.firstName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName);
     }
 }
