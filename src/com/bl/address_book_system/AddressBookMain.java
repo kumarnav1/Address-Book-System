@@ -5,15 +5,16 @@ public class AddressBookMain {
     public static void main(String[] args) {
 
         ProcessAddressBook processAddressBook = new ProcessAddressBook();
+        DisplayInConsole displayInConsole = new DisplayInConsole();
 
         while (true) {
 
-            processAddressBook.takingInputOverWhileLoop();
+            displayInConsole.takingInputOverWhileLoop();
 
-            switch (processAddressBook.choiceOfUsers) {
+            switch (displayInConsole.choiceOfUsers) {
 
                 case ProcessAddressBook.ADD_DETAILS:
-                    processAddressBook.addDetails();
+                    processAddressBook.addNewContact();
                     break;
                 case ProcessAddressBook.PRINT_DETAILS:
                     processAddressBook.displayPersonDetails();
@@ -25,7 +26,7 @@ public class AddressBookMain {
                     processAddressBook.deleteDetails();
                     break;
                 case ProcessAddressBook.EXIT_PROGRAM:
-                    processAddressBook.displayTermination();
+                    displayInConsole.displayTermination();
                     return;
                 default:
                     System.out.println("Please Enter correct input !");

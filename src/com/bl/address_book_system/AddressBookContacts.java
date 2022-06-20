@@ -44,6 +44,7 @@ public class AddressBookContacts {
         this.address = address;
     }
 
+
     public void setCity(String city) {
 
         this.city = city;
@@ -79,6 +80,6 @@ public class AddressBookContacts {
                 "\n State        = " + state +
                 "\n Zip Code     = " + zipCode +
                 "\n Phone Number = " + phoneNumber +
-                "\n Email        = " + email ;
+                "\n Email        = " + email;
     }
 }

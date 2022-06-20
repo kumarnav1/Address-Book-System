@@ -1,7 +1,8 @@
 package com.bl.address_book_system;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ProcessAddressBook {
@@ -12,14 +13,13 @@ public class ProcessAddressBook {
     static final int DELETE_DETAILS = 4;
     static final int EXIT_PROGRAM = 5;
 
-    public int choiceOfUsers;
-
     Scanner scanner = new Scanner(System.in);
-    List<AddressBookContacts> contactArray = new ArrayList<>();
+    Map<String, ArrayList<AddressBookContacts>> multipleAddressBookMap = new HashMap<>();
+    ArrayList<AddressBookContacts> contactArray;
     AddressBookContacts addressBookContacts;
-    Scanner choice = new Scanner(System.in);
 
-    void addDetails() {
+    public void addNewContact() {
+
         System.out.println("\n You have chosen to Add a new contact details.\n");
         System.out.print("Enter contact's first name : ");
         String firstName = scanner.next();
@@ -48,13 +48,24 @@ public class ProcessAddressBook {
         String email = scanner.nextLine();
 
         addressBookContacts = new AddressBookContacts(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
-        contactArray.add(addressBookContacts);
-        System.out.println("\n Your details are successfully added in Address book");
+
+        System.out.println("\n Enter the book name ");
+        String bookName = scanner.next();
+
+        if (multipleAddressBookMap.containsKey(bookName)) {
+            multipleAddressBookMap.get(bookName).add(addressBookContacts);
+            System.out.println("Contact added successfully exiting arrayList and existing book : \"" + bookName + " \"");
+        } else {
+            contactArray = new ArrayList<>();
+            contactArray.add(addressBookContacts);
+            multipleAddressBookMap.put(bookName, contactArray);
+            System.out.println("Successfully created book " + bookName);
+            System.out.println("New contact added in the new arraylist in new address book " + bookName);
+        }
         displayAddedDetails(addressBookContacts);
     }
 
     void editDetails() {
-
         System.out.println("\n You have chosen to update the existing contact details.\n");
         System.out.println("To edit the details");
         AddressBookContacts varEdit = isDetailsMatched();
@@ -99,7 +110,6 @@ public class ProcessAddressBook {
     }
 
     void deleteDetails() {
-
         System.out.println("\n You have chosen to remove the existing contact details.\n");
         System.out.println("To delete the details");
         AddressBookContacts varDelete = isDetailsMatched();
@@ -111,12 +121,10 @@ public class ProcessAddressBook {
     }
 
     void displayAddedDetails(AddressBookContacts toDisplayDetails) {
-
         System.out.println(toDisplayDetails);
     }
 
     void displayPersonDetails() {
-
         System.out.println("\n To print the details");
         AddressBookContacts varPrint = isDetailsMatched();
         if (varPrint == null)
@@ -126,45 +134,28 @@ public class ProcessAddressBook {
     }
 
     AddressBookContacts isDetailsMatched() {
-
-        System.out.print("Enter the first name of the person : ");
-        String editName = scanner.next();
+        System.out.println("Enter the address book name first. \n ");
+        displayAllAddressBooksName();
+        System.out.println("Your choice: ");
+        String bookName = scanner.next();
+        System.out.print(" \n Enter the first name of the person : ");
+        String enteredName = scanner.next();
         AddressBookContacts tempRefVar;
+        ArrayList<AddressBookContacts> tempMapValue = multipleAddressBookMap.get(bookName);
 
-        for (int index = 0; index < contactArray.size(); index++) {
-            String name = contactArray.get(index).getFirstName();
-            if ((name.equals(editName))) {
-                tempRefVar = contactArray.get(index);
-                System.out.println("\n Match found \n ");
-                return tempRefVar;
-            }
+        for (int indexOfArrayList = 0; indexOfArrayList < tempMapValue.size(); indexOfArrayList++) {
+            String name = tempMapValue.get(indexOfArrayList).getFirstName();
+            if (!(name.equals(enteredName)))
+                continue;
+            tempRefVar = tempMapValue.get(indexOfArrayList);
+            System.out.println("\n Match found \n ");
+            return tempRefVar;
         }
-
-        System.out.println("Invalid input, Please try again");
+        System.out.println("Contact not found in the address book");
         return null;
     }
 
-    void printChoices() {
-
-        System.out.println("\n \n Welcome to Address Book Program.");
-        System.out.println("These are the actions you can perform in the Address book");
-        System.out.println("1. Adding a new contact details.");
-        System.out.println("2. Printing a existing contact details.");
-        System.out.println("3. Editing a existing contact.");
-        System.out.println("4. Deleting a existing contact.");
-    }
-
-    void displayTermination() {
-
-        System.out.println("Your program is Terminated.");
-    }
-
-
-    public void takingInputOverWhileLoop() {
-
-        printChoices();
-        System.out.println(" \n Enter a number between 1 to 4 to run any one of the functionality and 5 to terminate : \n");
-        System.out.print("your choice : ");
-        choiceOfUsers = choice.nextInt();
+    void displayAllAddressBooksName() {
+        multipleAddressBookMap.forEach((key, value) -> System.out.println(key));
     }
 }
