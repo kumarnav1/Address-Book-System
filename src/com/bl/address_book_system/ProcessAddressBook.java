@@ -168,24 +168,32 @@ public class ProcessAddressBook {
     }
 
     void findPersonUsingCityOrState() {
-        System.out.println("Enter city or state name to display the person. ");
-        String userInputCityOrState = scanner.next();
+        System.out.println("Enter city name to display the person. ");
+        String city = scanner.next();
+        System.out.println("\nEnter state name to display the person. \n");
+        String state = scanner.next();
 
-        List<Map.Entry<String, ArrayList<AddressBookContacts>>> collect = multipleAddressBookMap
+        List<Map.Entry<String, ArrayList<AddressBookContacts>>> cityCollect = multipleAddressBookMap
                 .entrySet()
                 .stream()
                 .filter(stringArrayListEntry -> stringArrayListEntry
                         .getValue()
                         .get(0)
                         .getCity()
-                        .equals(userInputCityOrState)
-                        || stringArrayListEntry
+                        .equals(city))
+                .collect(Collectors.toList());
+        System.out.println(cityCollect.toString());
+
+        List<Map.Entry<String, ArrayList<AddressBookContacts>>> stateCollect = multipleAddressBookMap
+                .entrySet()
+                .stream()
+                .filter(stringArrayListEntry -> stringArrayListEntry
                         .getValue()
                         .get(0)
                         .getState()
-                        .equals(userInputCityOrState))
+                        .equals(state))
                 .collect(Collectors.toList());
-        System.out.println(collect.toString());
+        System.out.println(stateCollect.toString());
     }
 
     void displayAllAddressBooksName() {

@@ -29,7 +29,7 @@ public class DisplayInConsole {
 
     public void takingInputOverWhileLoop() {
         displayChoices();
-        System.out.println(" \n Enter a number between 1 to 4 to run any one of the functionality and 5 to terminate : \n");
+        System.out.println(" \n Enter a number between 1 to 5 to run any one of the functionality and 6 to terminate : \n");
         System.out.print("your choice : ");
         choiceOfUsers = choice.nextInt();
     }
