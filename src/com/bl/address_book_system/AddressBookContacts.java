@@ -31,17 +31,27 @@ public class AddressBookContacts {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+
+        this.firstName = firstName;
+    }
+
     public String getCity() {
         return city;
+    }
+
+    public void setCity(String city) {
+
+        this.city = city;
     }
 
     public String getState() {
         return state;
     }
 
-    public void setFirstName(String firstName) {
+    public void setState(String state) {
 
-        this.firstName = firstName;
+        this.state = state;
     }
 
     public void setLastName(String lastName) {
@@ -52,18 +62,6 @@ public class AddressBookContacts {
     public void setAddress(String address) {
 
         this.address = address;
-    }
-
-
-    public void setCity(String city) {
-
-        this.city = city;
-    }
-
-
-    public void setState(String state) {
-
-        this.state = state;
     }
 
     public void setZipCode(int zipCode) {

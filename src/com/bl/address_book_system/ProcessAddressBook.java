@@ -1,9 +1,7 @@
 package com.bl.address_book_system;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProcessAddressBook {
 
@@ -172,21 +170,22 @@ public class ProcessAddressBook {
     void findPersonUsingCityOrState() {
         System.out.println("Enter city or state name to display the person. ");
         String userInputCityOrState = scanner.next();
-        boolean flag = false;
-        for (Map.Entry<String, ArrayList<AddressBookContacts>> stringArrayListEntry : multipleAddressBookMap.entrySet()) {
-            for (int indexOfArrayList = 0; indexOfArrayList < stringArrayListEntry.getValue().size(); indexOfArrayList++) {
-                String cityName = stringArrayListEntry.getValue().get(indexOfArrayList).getCity();
-                String stateName = stringArrayListEntry.getValue().get(indexOfArrayList).getState();
 
-                if ((cityName.equals(userInputCityOrState)) || (stateName.equals(userInputCityOrState))) {
-                    System.out.println("\n Match found \n ");
-                    displayAddedDetails(stringArrayListEntry.getValue().get(indexOfArrayList));
-                    flag = true;
-                }
-            }
-        }
-        if (!flag)
-            System.out.println("No person found for that city and state");
+        List<Map.Entry<String, ArrayList<AddressBookContacts>>> collect = multipleAddressBookMap
+                .entrySet()
+                .stream()
+                .filter(stringArrayListEntry -> stringArrayListEntry
+                        .getValue()
+                        .get(0)
+                        .getCity()
+                        .equals(userInputCityOrState)
+                        || stringArrayListEntry
+                        .getValue()
+                        .get(0)
+                        .getState()
+                        .equals(userInputCityOrState))
+                .collect(Collectors.toList());
+        System.out.println(collect.toString());
     }
 
     void displayAllAddressBooksName() {
