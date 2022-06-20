@@ -31,6 +31,14 @@ public class AddressBookContacts {
         return firstName;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
     public void setFirstName(String firstName) {
 
         this.firstName = firstName;
@@ -90,11 +98,11 @@ public class AddressBookContacts {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddressBookContacts that = (AddressBookContacts) o;
-        return firstName.equals(that.firstName);
+        return Objects.equals(firstName, that.firstName) && Objects.equals(city, that.city) && Objects.equals(state, that.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName);
+        return Objects.hash(firstName, city, state);
     }
 }

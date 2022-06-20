@@ -13,19 +13,22 @@ public class AddressBookMain {
 
             switch (displayInConsole.choiceOfUsers) {
 
-                case ProcessAddressBook.ADD_DETAILS:
+                case DisplayInConsole.ADD_DETAILS:
                     processAddressBook.addNewContact();
                     break;
-                case ProcessAddressBook.PRINT_DETAILS:
+                case DisplayInConsole.PRINT_DETAILS:
                     processAddressBook.displayPersonDetails();
                     break;
-                case ProcessAddressBook.EDIT_DETAILS:
+                case DisplayInConsole.EDIT_DETAILS:
                     processAddressBook.editDetails();
                     break;
-                case ProcessAddressBook.DELETE_DETAILS:
+                case DisplayInConsole.DELETE_DETAILS:
                     processAddressBook.deleteDetails();
                     break;
-                case ProcessAddressBook.EXIT_PROGRAM:
+                case DisplayInConsole.DISPLAY_BY_CITY_OR_STATE:
+                    processAddressBook.displayPersonUsingCityOrState();
+                    break;
+                case DisplayInConsole.EXIT_PROGRAM:
                     displayInConsole.displayTermination();
                     return;
                 default:

@@ -7,12 +7,6 @@ import java.util.Scanner;
 
 public class ProcessAddressBook {
 
-    static final int ADD_DETAILS = 1;
-    static final int PRINT_DETAILS = 2;
-    static final int EDIT_DETAILS = 3;
-    static final int DELETE_DETAILS = 4;
-    static final int EXIT_PROGRAM = 5;
-
     Scanner scanner = new Scanner(System.in);
     Map<String, ArrayList<AddressBookContacts>> multipleAddressBookMap = new HashMap<>();
     ArrayList<AddressBookContacts> contactArray;
@@ -168,6 +162,31 @@ public class ProcessAddressBook {
                 .filter(arrayRef -> arrayRef.getFirstName().equals(enteredName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    void displayPersonUsingCityOrState() {
+        System.out.println("\n To display the details");
+        findPersonUsingCityOrState();
+    }
+
+    void findPersonUsingCityOrState() {
+        System.out.println("Enter city or state name to display the person. ");
+        String userInputCityOrState = scanner.next();
+        boolean flag = false;
+        for (Map.Entry<String, ArrayList<AddressBookContacts>> stringArrayListEntry : multipleAddressBookMap.entrySet()) {
+            for (int indexOfArrayList = 0; indexOfArrayList < stringArrayListEntry.getValue().size(); indexOfArrayList++) {
+                String cityName = stringArrayListEntry.getValue().get(indexOfArrayList).getCity();
+                String stateName = stringArrayListEntry.getValue().get(indexOfArrayList).getState();
+
+                if ((cityName.equals(userInputCityOrState)) || (stateName.equals(userInputCityOrState))) {
+                    System.out.println("\n Match found \n ");
+                    displayAddedDetails(stringArrayListEntry.getValue().get(indexOfArrayList));
+                    flag = true;
+                }
+            }
+        }
+        if (!flag)
+            System.out.println("No person found for that city and state");
     }
 
     void displayAllAddressBooksName() {
