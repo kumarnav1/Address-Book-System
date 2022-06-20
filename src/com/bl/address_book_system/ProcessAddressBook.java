@@ -9,6 +9,8 @@ public class ProcessAddressBook {
     Map<String, ArrayList<AddressBookContacts>> multipleAddressBookMap = new HashMap<>();
     ArrayList<AddressBookContacts> contactArray;
     AddressBookContacts addressBookContacts;
+    List<Map.Entry<String, ArrayList<AddressBookContacts>>> cityCollect;
+    List<Map.Entry<String, ArrayList<AddressBookContacts>>> stateCollect;
 
     public void addNewContact() {
 
@@ -162,6 +164,10 @@ public class ProcessAddressBook {
                 .orElse(null);
     }
 
+    void displayAllAddressBooksName() {
+        multipleAddressBookMap.forEach((key, value) -> System.out.println(key));
+    }
+
     void displayPersonUsingCityOrState() {
         System.out.println("\n To display the details");
         findPersonUsingCityOrState();
@@ -173,7 +179,7 @@ public class ProcessAddressBook {
         System.out.println("\nEnter state name to display the person. \n");
         String state = scanner.next();
 
-        List<Map.Entry<String, ArrayList<AddressBookContacts>>> cityCollect = multipleAddressBookMap
+        cityCollect = multipleAddressBookMap
                 .entrySet()
                 .stream()
                 .filter(stringArrayListEntry -> stringArrayListEntry
@@ -182,9 +188,9 @@ public class ProcessAddressBook {
                         .getCity()
                         .equals(city))
                 .collect(Collectors.toList());
-        System.out.println(cityCollect.toString());
+        System.out.println(this.cityCollect.toString());
 
-        List<Map.Entry<String, ArrayList<AddressBookContacts>>> stateCollect = multipleAddressBookMap
+        stateCollect = multipleAddressBookMap
                 .entrySet()
                 .stream()
                 .filter(stringArrayListEntry -> stringArrayListEntry
@@ -193,10 +199,14 @@ public class ProcessAddressBook {
                         .getState()
                         .equals(state))
                 .collect(Collectors.toList());
-        System.out.println(stateCollect.toString());
+        System.out.println(this.stateCollect.toString());
     }
 
-    void displayAllAddressBooksName() {
-        multipleAddressBookMap.forEach((key, value) -> System.out.println(key));
+    void countPersonByCityOrState() {
+        findPersonUsingCityOrState();
+        long cityCount = cityCollect.stream().count();
+        System.out.println("\n Total persons using Count by city : " + cityCount);
+        long stateCount = stateCollect.size();
+        System.out.println("\n Total persons using Count by state : " + stateCount);
     }
 }

@@ -28,6 +28,9 @@ public class AddressBookMain {
                 case DisplayInConsole.DISPLAY_BY_CITY_OR_STATE:
                     processAddressBook.displayPersonUsingCityOrState();
                     break;
+                case DisplayInConsole.COUNT_BY_CITY_OR_STATE:
+                    processAddressBook.countPersonByCityOrState();
+                    break;
                 case DisplayInConsole.EXIT_PROGRAM:
                     displayInConsole.displayTermination();
                     return;

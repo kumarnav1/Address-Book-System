@@ -4,13 +4,16 @@ import java.util.Scanner;
 
 public class DisplayInConsole {
 
+    public static final int COUNT_BY_CITY_OR_STATE = 6;
     static final int ADD_DETAILS = 1;
     static final int PRINT_DETAILS = 2;
     static final int EDIT_DETAILS = 3;
     static final int DELETE_DETAILS = 4;
     static final int DISPLAY_BY_CITY_OR_STATE = 5;
-    static final int EXIT_PROGRAM = 6;
+    static final int EXIT_PROGRAM = 7;
+
     public int choiceOfUsers;
+
     Scanner choice = new Scanner(System.in);
 
     void displayChoices() {
@@ -29,7 +32,7 @@ public class DisplayInConsole {
 
     public void takingInputOverWhileLoop() {
         displayChoices();
-        System.out.println(" \n Enter a number between 1 to 5 to run any one of the functionality and 6 to terminate : \n");
+        System.out.println(" \n Enter a number between 1 to 6 to run any one of the functionality and 7 to terminate : \n");
         System.out.print("your choice : ");
         choiceOfUsers = choice.nextInt();
     }
