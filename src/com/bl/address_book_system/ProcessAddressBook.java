@@ -9,8 +9,8 @@ public class ProcessAddressBook {
     Map<String, ArrayList<AddressBookContacts>> multipleAddressBookMap = new HashMap<>();
     ArrayList<AddressBookContacts> contactArray;
     AddressBookContacts addressBookContacts;
-    List<Map.Entry<String, ArrayList<AddressBookContacts>>> cityCollect;
-    List<Map.Entry<String, ArrayList<AddressBookContacts>>> stateCollect;
+    Map<String, List<AddressBookContacts>> cityAndPersonMap;
+    Map<String, List<AddressBookContacts>> stateAndPersonMap;
 
     public void addNewContact() {
 
@@ -176,87 +176,54 @@ public class ProcessAddressBook {
     void findPersonUsingCityOrState() {
         System.out.println("Enter city name to display the person. ");
         String city = scanner.next();
+
         System.out.println("\nEnter state name to display the person. \n");
         String state = scanner.next();
 
-        cityCollect = multipleAddressBookMap
-                .entrySet()
-                .stream()
-                .filter(stringArrayListEntry -> stringArrayListEntry
-                        .getValue()
-                        .get(0)
-                        .getCity()
-                        .equals(city))
-                .collect(Collectors.toList());
-        System.out.println(this.cityCollect.toString());
+        for (Map.Entry<String, ArrayList<AddressBookContacts>> pair : multipleAddressBookMap.entrySet()) {
+            List<AddressBookContacts> cityCollect = pair
+                    .getValue()
+                    .stream()
+                    .filter(addressBookContacts1 -> addressBookContacts1.getCity().equals(city) || addressBookContacts1.getState().equals(state))
+                    .collect(Collectors.toList());
+            System.out.println(cityCollect);
+        }
+    }
 
-        stateCollect = multipleAddressBookMap
-                .entrySet()
-                .stream()
-                .filter(stringArrayListEntry -> stringArrayListEntry
-                        .getValue()
-                        .get(0)
-                        .getState()
-                        .equals(state))
-                .collect(Collectors.toList());
-        System.out.println(this.stateCollect.toString());
+    void viewPersonByCityOrState() {
+        this.cityAndPersonMap = new HashMap<>();
+        this.stateAndPersonMap = new HashMap<>();
+
+        for (Map.Entry<String, ArrayList<AddressBookContacts>> pair : multipleAddressBookMap.entrySet()) {
+            this.cityAndPersonMap = pair.getValue()
+                    .stream()
+                    .collect(Collectors.groupingBy(AddressBookContacts::getCity));
+        }
+
+        for (Map.Entry<String, ArrayList<AddressBookContacts>> pair : multipleAddressBookMap.entrySet()) {
+            this.stateAndPersonMap = pair.getValue()
+                    .stream()
+                    .collect(Collectors.groupingBy(AddressBookContacts::getState));
+        }
+        System.out.println("City and person map:  " + this.cityAndPersonMap);
+        System.out.println("State and person map:  " + this.stateAndPersonMap);
     }
 
     void countPersonByCityOrState() {
-        findPersonUsingCityOrState();
-        long cityCount = cityCollect.stream().count();
+        viewPersonByCityOrState();
+        long cityCount = cityAndPersonMap.size();
         System.out.println("\n Total persons using Count by city : " + cityCount);
-        long stateCount = stateCollect.size();
+        long stateCount = stateAndPersonMap.size();
         System.out.println("\n Total persons using Count by state : " + stateCount);
     }
 
     void sortByName() {
-
         System.out.println("Enter the address book name to sort the Entries: ");
         displayAllAddressBooksName();
         System.out.println("Your Entries: ");
         String getBook = scanner.next();
         ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
-
         newList.sort(java.util.Comparator.comparing(AddressBookContacts::getFirstName));
-
-        System.out.println("printing Alphabetical order Sorted List using first name of the person :\n " + newList);
-    }
-
-    void sortByCity() {
-
-        System.out.println("Enter the address book name to sort the Entries: ");
-        displayAllAddressBooksName();
-        System.out.println("Your Entries: ");
-        String getBook = scanner.next();
-        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
-
-        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getCity));
-
-        System.out.println("printing Alphabetical order Sorted List using city :\n " + newList);
-    }
-    void sortByState() {
-
-        System.out.println("Enter the address book name to sort the Entries: ");
-        displayAllAddressBooksName();
-        System.out.println("Your Entries: ");
-        String getBook = scanner.next();
-        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
-
-        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getState));
-
-        System.out.println("printing Alphabetical order Sorted List using State :\n " + newList);
-    }
-    void sortByZip() {
-
-        System.out.println("Enter the address book name to sort the Entries: ");
-        displayAllAddressBooksName();
-        System.out.println("Your Entries: ");
-        String getBook = scanner.next();
-        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
-
-        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getZipCode));
-
-        System.out.println("printing Alphabetical order Sorted List zip  :\n " + newList);
+        System.out.println("Printing Alphabetical order Sorted List using first name of the person :\n " + newList);
     }
 }
