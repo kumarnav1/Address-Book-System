@@ -209,4 +209,54 @@ public class ProcessAddressBook {
         long stateCount = stateCollect.size();
         System.out.println("\n Total persons using Count by state : " + stateCount);
     }
+
+    void sortByName() {
+
+        System.out.println("Enter the address book name to sort the Entries: ");
+        displayAllAddressBooksName();
+        System.out.println("Your Entries: ");
+        String getBook = scanner.next();
+        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
+
+        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getFirstName));
+
+        System.out.println("printing Alphabetical order Sorted List using first name of the person :\n " + newList);
+    }
+
+    void sortByCity() {
+
+        System.out.println("Enter the address book name to sort the Entries: ");
+        displayAllAddressBooksName();
+        System.out.println("Your Entries: ");
+        String getBook = scanner.next();
+        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
+
+        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getCity));
+
+        System.out.println("printing Alphabetical order Sorted List using city :\n " + newList);
+    }
+    void sortByState() {
+
+        System.out.println("Enter the address book name to sort the Entries: ");
+        displayAllAddressBooksName();
+        System.out.println("Your Entries: ");
+        String getBook = scanner.next();
+        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
+
+        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getState));
+
+        System.out.println("printing Alphabetical order Sorted List using State :\n " + newList);
+    }
+    void sortByZip() {
+
+        System.out.println("Enter the address book name to sort the Entries: ");
+        displayAllAddressBooksName();
+        System.out.println("Your Entries: ");
+        String getBook = scanner.next();
+        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
+
+        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getZipCode));
+
+        System.out.println("printing Alphabetical order Sorted List zip  :\n " + newList);
+    }
 }

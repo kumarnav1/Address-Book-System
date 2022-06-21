@@ -31,6 +31,9 @@ public class AddressBookMain {
                 case DisplayInConsole.COUNT_BY_CITY_OR_STATE:
                     processAddressBook.countPersonByCityOrState();
                     break;
+                case DisplayInConsole.SORT_BY_NAME:
+                    processAddressBook.sortByName();
+                    break;
                 case DisplayInConsole.EXIT_PROGRAM:
                     displayInConsole.displayTermination();
                     return;

@@ -4,13 +4,14 @@ import java.util.Scanner;
 
 public class DisplayInConsole {
 
-    public static final int COUNT_BY_CITY_OR_STATE = 6;
     static final int ADD_DETAILS = 1;
     static final int PRINT_DETAILS = 2;
     static final int EDIT_DETAILS = 3;
     static final int DELETE_DETAILS = 4;
     static final int DISPLAY_BY_CITY_OR_STATE = 5;
-    static final int EXIT_PROGRAM = 7;
+    public static final int COUNT_BY_CITY_OR_STATE = 6;
+    static final int SORT_BY_NAME = 7;
+    static final int EXIT_PROGRAM = 8;
 
     public int choiceOfUsers;
 
@@ -24,6 +25,8 @@ public class DisplayInConsole {
         System.out.println("3. Editing a existing contact.");
         System.out.println("4. Deleting a existing contact.");
         System.out.println("5. Display details by city or state.");
+        System.out.println("6. Count person by city or state.");
+        System.out.println("7. Sort details by first name.");
     }
 
     void displayTermination() {
@@ -32,7 +35,7 @@ public class DisplayInConsole {
 
     public void takingInputOverWhileLoop() {
         displayChoices();
-        System.out.println(" \n Enter a number between 1 to 6 to run any one of the functionality and 7 to terminate : \n");
+        System.out.println(" \n Enter a number between 1 to 7 to run any one of the functionality and 8 to terminate : \n");
         System.out.print("your choice : ");
         choiceOfUsers = choice.nextInt();
     }

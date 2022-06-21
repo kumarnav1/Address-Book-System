@@ -69,6 +69,10 @@ public class AddressBookContacts {
         this.zipCode = zipCode;
     }
 
+    public int getZipCode() {
+        return zipCode;
+    }
+
     public void setPhoneNumber(long phoneNumber) {
 
         this.phoneNumber = phoneNumber;
