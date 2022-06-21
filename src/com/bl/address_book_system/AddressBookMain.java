@@ -28,11 +28,23 @@ public class AddressBookMain {
                 case DisplayInConsole.DISPLAY_BY_CITY_OR_STATE:
                     processAddressBook.displayPersonUsingCityOrState();
                     break;
+                case DisplayInConsole.VIEW_DETAILS_BY_CITY_STATE:
+                    processAddressBook.viewPersonByCityOrState();
+                    break;
                 case DisplayInConsole.COUNT_BY_CITY_OR_STATE:
                     processAddressBook.countPersonByCityOrState();
                     break;
                 case DisplayInConsole.SORT_BY_NAME:
                     processAddressBook.sortByName();
+                    break;
+                case DisplayInConsole.SORT_BY_CITY:
+                    processAddressBook.sortByCity();
+                    break;
+                case DisplayInConsole.SORT_BY_STATE:
+                    processAddressBook.sortByState();
+                    break;
+                case DisplayInConsole.SORT_BY_ZIP:
+                    processAddressBook.sortByZip();
                     break;
                 case DisplayInConsole.EXIT_PROGRAM:
                     displayInConsole.displayTermination();

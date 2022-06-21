@@ -205,8 +205,8 @@ public class ProcessAddressBook {
                     .stream()
                     .collect(Collectors.groupingBy(AddressBookContacts::getState));
         }
-        System.out.println("City and person map:  " + this.cityAndPersonMap);
-        System.out.println("State and person map:  " + this.stateAndPersonMap);
+        System.out.println("City and person map: \n " + this.cityAndPersonMap);
+        System.out.println("State and person map: \n " + this.stateAndPersonMap);
     }
 
     void countPersonByCityOrState() {
@@ -225,5 +225,41 @@ public class ProcessAddressBook {
         ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
         newList.sort(java.util.Comparator.comparing(AddressBookContacts::getFirstName));
         System.out.println("Printing Alphabetical order Sorted List using first name of the person :\n " + newList);
+    }
+
+    void sortByCity() {
+        System.out.println("Enter the address book name to sort the Entries: ");
+        displayAllAddressBooksName();
+        System.out.println("Your Entries: ");
+        String getBook = scanner.next();
+        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
+
+        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getCity));
+
+        System.out.println("printing Alphabetical order Sorted List using city :\n " + newList);
+    }
+
+    void sortByState() {
+        System.out.println("Enter the address book name to sort the Entries: ");
+        displayAllAddressBooksName();
+        System.out.println("Your Entries: ");
+        String getBook = scanner.next();
+        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
+
+        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getState));
+
+        System.out.println("printing Alphabetical order Sorted List using State :\n " + newList);
+    }
+
+    void sortByZip() {
+        System.out.println("Enter the address book name to sort the Entries: ");
+        displayAllAddressBooksName();
+        System.out.println("Your Entries: ");
+        String getBook = scanner.next();
+        ArrayList<AddressBookContacts> newList = multipleAddressBookMap.get(getBook);
+
+        newList.sort(java.util.Comparator.comparing(AddressBookContacts::getZipCode));
+
+        System.out.println("printing Alphabetical order Sorted List zip  :\n " + newList);
     }
 }
