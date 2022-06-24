@@ -13,7 +13,6 @@ public class ProcessAddressBook {
     Map<String, List<AddressBookContacts>> stateAndPersonMap;
 
     public void addNewContact() {
-
         System.out.println("\n You have chosen to Add a new contact details.\n");
         System.out.print("Enter contact's first name : ");
         String firstName = scanner.next();
@@ -75,54 +74,76 @@ public class ProcessAddressBook {
 
     void editDetails() {
         System.out.println("\n You have chosen to update the existing contact details.\n");
-        System.out.println("To edit the details");
         AddressBookContacts varEdit = isDetailsMatched();
+
         if (varEdit == null) {
             System.out.println("Contact not found in the address book");
             return;
         }
 
         System.out.println("\n Match found.\n ");
-        System.out.print("Enter contact's first name : ");
-        String firstName = scanner.next();
-        varEdit.setFirstName(firstName);
+        DisplayInConsole displayInConsole = new DisplayInConsole();
 
-        System.out.print("Enter contact's last name : ");
-        String lastName = scanner.next();
-        varEdit.setLastName(lastName);
+        while (true) {
+            displayInConsole.inputOverWhileLoopEditDetails();
 
-        System.out.print("Enter contact's address : ");
-        scanner.nextLine();
-        String address = scanner.nextLine();
-        varEdit.setAddress(address);
+            switch (displayInConsole.choiceOfUsers) {
 
-        System.out.print("Enter contact's city : ");
-        String city = scanner.next();
-        varEdit.setCity(city);
-
-        System.out.print("Enter contact's state : ");
-        String state = scanner.next();
-        varEdit.setState(state);
-
-        System.out.print("Enter contact's zip code : ");
-        int zipCode = scanner.nextInt();
-        varEdit.setZipCode(zipCode);
-
-        System.out.print("Enter contact's phone number : ");
-        long phoneNumber = scanner.nextLong();
-        varEdit.setPhoneNumber(phoneNumber);
-
-        System.out.print("Enter contact's email : ");
-        scanner.nextLine();
-        String email = scanner.nextLine();
-        varEdit.setEmail(email);
-
-        System.out.println("\n Your details are successfully edited in Address book");
+                case DisplayInConsole.EDIT_FIRST_NAME:
+                    System.out.print("Enter contact's first name : ");
+                    String firstName = scanner.next();
+                    varEdit.setFirstName(firstName);
+                    System.out.println("\n First Name was successfully edited in Address book");
+                    break;
+                case DisplayInConsole.EDIT_LAST_NAME:
+                    System.out.print("Enter contact's last name : ");
+                    String lastName = scanner.next();
+                    varEdit.setLastName(lastName);
+                    break;
+                case DisplayInConsole.EDIT_ADDRESS:
+                    System.out.print("Enter contact's address : ");
+                    scanner.nextLine();
+                    String address = scanner.nextLine();
+                    varEdit.setAddress(address);
+                    break;
+                case DisplayInConsole.EDIT_CITY:
+                    System.out.print("Enter contact's city : ");
+                    String city = scanner.next();
+                    varEdit.setCity(city);
+                    break;
+                case DisplayInConsole.EDIT_STATE:
+                    System.out.print("Enter contact's state : ");
+                    String state = scanner.next();
+                    varEdit.setState(state);
+                    break;
+                case DisplayInConsole.EDIT_ZIP:
+                    System.out.print("Enter contact's zip code : ");
+                    int zipCode = scanner.nextInt();
+                    varEdit.setZipCode(zipCode);
+                    break;
+                case DisplayInConsole.EDIT_PHONE_NUMBER:
+                    System.out.print("Enter contact's phone number : ");
+                    long phoneNumber = scanner.nextLong();
+                    varEdit.setPhoneNumber(phoneNumber);
+                    break;
+                case DisplayInConsole.EDIT_EMAIL:
+                    System.out.print("Enter contact's email : ");
+                    scanner.nextLine();
+                    String email = scanner.nextLine();
+                    varEdit.setEmail(email);
+                    break;
+                case DisplayInConsole.EXIT_FUNCTION:
+                    displayInConsole.displayExitFormEditDetails();
+                    return;
+                default:
+                    System.out.println("Please Enter correct input !");
+                    break;
+            }
+        }
     }
 
     void deleteDetails() {
         System.out.println("\n You have chosen to remove the existing contact details.\n");
-        System.out.println("To delete the details");
         AddressBookContacts varDelete = isDetailsMatched();
         if (varDelete == null) {
             System.out.println("Contact not found in the address book");
@@ -139,7 +160,6 @@ public class ProcessAddressBook {
     }
 
     void displayPersonDetails() {
-        System.out.println("\n To print the details");
         AddressBookContacts varPrint = isDetailsMatched();
         if (varPrint == null) {
             System.out.println("Contact not found in the address book");
@@ -150,10 +170,17 @@ public class ProcessAddressBook {
     }
 
     AddressBookContacts isDetailsMatched() {
+        if (!displayAllAddressBooksName()) {
+            System.out.println("No book exist in the Data base.");
+            return null;
+        }
         System.out.println("Enter the address book name first. \n ");
-        displayAllAddressBooksName();
         System.out.println("Your choice: ");
         String bookName = scanner.next();
+        if (!multipleAddressBookMap.containsKey(bookName)) {
+            System.out.println("Book Doesn't match.");
+            return null;
+        }
         System.out.print(" \n Enter the first name of the person : ");
         String enteredName = scanner.next();
         return multipleAddressBookMap
@@ -164,11 +191,19 @@ public class ProcessAddressBook {
                 .orElse(null);
     }
 
-    void displayAllAddressBooksName() {
+    boolean displayAllAddressBooksName() {
+        if (multipleAddressBookMap.isEmpty()) {
+            return false;
+        }
         multipleAddressBookMap.forEach((key, value) -> System.out.println(key));
+        return true;
     }
 
     void displayPersonUsingCityOrState() {
+        if (multipleAddressBookMap.isEmpty()) {
+            System.out.println(" No book exist in the Data base.");
+            return;
+        }
         System.out.println("\n To display the details");
         findPersonUsingCityOrState();
     }
@@ -191,6 +226,10 @@ public class ProcessAddressBook {
     }
 
     void viewPersonByCityOrState() {
+        if (multipleAddressBookMap.isEmpty()) {
+            System.out.println("No book exist in the Data base.");
+            return;
+        }
         this.cityAndPersonMap = new HashMap<>();
         this.stateAndPersonMap = new HashMap<>();
 
@@ -210,6 +249,10 @@ public class ProcessAddressBook {
     }
 
     void countPersonByCityOrState() {
+        if (multipleAddressBookMap.isEmpty()) {
+            System.out.println("No book exist in the Data base.");
+            return;
+        }
         viewPersonByCityOrState();
         long cityCount = cityAndPersonMap.size();
         System.out.println("\n Total persons using Count by city : " + cityCount);
@@ -218,6 +261,10 @@ public class ProcessAddressBook {
     }
 
     void sortByName() {
+        if (multipleAddressBookMap.isEmpty()) {
+            System.out.println("No book exist in the Data base.");
+            return;
+        }
         System.out.println("Enter the address book name to sort the Entries: ");
         displayAllAddressBooksName();
         System.out.println("Your Entries: ");
@@ -228,6 +275,10 @@ public class ProcessAddressBook {
     }
 
     void sortByCity() {
+        if (multipleAddressBookMap.isEmpty()) {
+            System.out.println("No book exist in the Data base.");
+            return;
+        }
         System.out.println("Enter the address book name to sort the Entries: ");
         displayAllAddressBooksName();
         System.out.println("Your Entries: ");
@@ -240,6 +291,10 @@ public class ProcessAddressBook {
     }
 
     void sortByState() {
+        if (multipleAddressBookMap.isEmpty()) {
+            System.out.println("No book exist in the Data base.");
+            return;
+        }
         System.out.println("Enter the address book name to sort the Entries: ");
         displayAllAddressBooksName();
         System.out.println("Your Entries: ");
@@ -252,6 +307,10 @@ public class ProcessAddressBook {
     }
 
     void sortByZip() {
+        if (multipleAddressBookMap.isEmpty()) {
+            System.out.println("No book exist in the Data base.");
+            return;
+        }
         System.out.println("Enter the address book name to sort the Entries: ");
         displayAllAddressBooksName();
         System.out.println("Your Entries: ");
