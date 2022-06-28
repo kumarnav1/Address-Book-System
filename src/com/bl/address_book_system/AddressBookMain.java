@@ -1,8 +1,13 @@
 package com.bl.address_book_system;
 
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+
+import java.io.IOException;
+
 public class AddressBookMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
 
         ProcessAddressBook processAddressBook = new ProcessAddressBook();
         DisplayInConsole displayInConsole = new DisplayInConsole();
@@ -17,7 +22,7 @@ public class AddressBookMain {
                     processAddressBook.addNewContact();
                     break;
                 case DisplayInConsole.PRINT_DETAILS:
-                    processAddressBook.displayPersonDetails();
+                    processAddressBook.writeDataToCSV();
                     break;
                 case DisplayInConsole.EDIT_DETAILS:
                     processAddressBook.editDetails();

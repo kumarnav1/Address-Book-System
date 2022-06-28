@@ -9,11 +9,11 @@ public class AddressBookContacts {
     private String address;
     private String city;
     private String state;
-    private int zipCode;
-    private long phoneNumber;
+    private String zipCode;
+    private String phoneNumber;
     private String email;
 
-    public AddressBookContacts(String firstName, String lastName, String address, String city, String state, int zipCode, long phoneNumber, String email) {
+    public AddressBookContacts(String firstName, String lastName, String address, String city, String state, String zipCode, String phoneNumber, String email) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,16 +64,16 @@ public class AddressBookContacts {
         this.address = address;
     }
 
-    public void setZipCode(int zipCode) {
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
 
         this.zipCode = zipCode;
     }
 
-    public int getZipCode() {
-        return zipCode;
-    }
-
-    public void setPhoneNumber(long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
 
         this.phoneNumber = phoneNumber;
     }

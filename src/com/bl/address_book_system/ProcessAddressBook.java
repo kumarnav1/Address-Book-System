@@ -1,5 +1,17 @@
 package com.bl.address_book_system;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,38 +25,66 @@ public class ProcessAddressBook {
     Map<String, List<AddressBookContacts>> stateAndPersonMap;
 
     public void addNewContact() {
+
         System.out.println("\n You have chosen to Add a new contact details.\n");
-        System.out.print("Enter contact's first name : ");
-        String firstName = scanner.next();
-
-        System.out.print("Enter contact's last name : ");
-        String lastName = scanner.next();
-
-        System.out.print("Enter contact's address : ");
-        scanner.nextLine();
-        String address = scanner.nextLine();
-
-        System.out.print("Enter contact's city : ");
-        String city = scanner.next();
-
-        System.out.print("Enter contact's state : ");
-        String state = scanner.next();
-
-        System.out.print("Enter contact's zip code : ");
-        int zipCode = scanner.nextInt();
-
-        System.out.print("Enter contact's phone number : ");
-        long phoneNumber = scanner.nextLong();
-
-        System.out.print("Enter contact's email : ");
-        scanner.nextLine();
-        String email = scanner.nextLine();
-
-        addressBookContacts = new AddressBookContacts(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
 
         System.out.println("\n Enter the book name ");
         String bookName = scanner.next();
 
+        System.out.println("\n Enter 1 if you want to add the contact using .csv file or \n Enter anything to add contact using console.");
+
+        if (scanner.nextInt() == 1) {
+            try (Reader reader = Files.newBufferedReader(Paths.get("CSVdatafiles\\person.csv"));
+                 CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build()) {
+                String[] nextRecord;
+                while ((nextRecord = csvReader.readNext()) != null) {
+                    String firstName = nextRecord[0];
+                    String lastName = nextRecord[1];
+                    String address = nextRecord[2];
+                    String city = nextRecord[3];
+                    String state = nextRecord[4];
+                    String zipCode = nextRecord[5];
+                    String phoneNumber = nextRecord[6];
+                    String email = nextRecord[7];
+                    addressBookContacts = new AddressBookContacts(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
+                    duplicateCheckWhileAdding(bookName, addressBookContacts);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.print("Enter contact's first name : ");
+            String firstName = scanner.next();
+
+            System.out.print("Enter contact's last name : ");
+            String lastName = scanner.next();
+
+            System.out.print("Enter contact's address : ");
+            scanner.nextLine();
+            String address = scanner.nextLine();
+
+            System.out.print("Enter contact's city : ");
+            String city = scanner.next();
+
+            System.out.print("Enter contact's state : ");
+            String state = scanner.next();
+
+            System.out.print("Enter contact's zip code : ");
+            String zipCode = scanner.next();
+
+            System.out.print("Enter contact's phone number : ");
+            String phoneNumber = scanner.next();
+
+            System.out.print("Enter contact's email : ");
+            scanner.nextLine();
+            String email = scanner.nextLine();
+
+            addressBookContacts = new AddressBookContacts(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
+            duplicateCheckWhileAdding(bookName, addressBookContacts);
+        }
+    }
+
+    private void duplicateCheckWhileAdding(String bookName, AddressBookContacts addressBookContacts) {
         if (multipleAddressBookMap.containsKey(bookName)) {
             String isFirstName = addressBookContacts.getFirstName();
             AddressBookContacts isFound = multipleAddressBookMap
@@ -59,7 +99,7 @@ public class ProcessAddressBook {
                 return;
             }
 
-            System.out.println("Contact not found in the existing address book, No duplicate Entry will be there. \n");
+            System.out.println("\nContact not found in the existing address book, No duplicate Entry will be there.");
             multipleAddressBookMap.get(bookName).add(addressBookContacts);
             System.out.println("Contact added successfully exiting arrayList and existing book : \"" + bookName + " \"");
         } else {
@@ -71,6 +111,39 @@ public class ProcessAddressBook {
         }
         displayAddedDetails(addressBookContacts);
     }
+
+    void writeDataToCSV() throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+
+        if (multipleAddressBookMap.isEmpty()) {
+            System.out.println("No book exist in the Data base.");
+            return;
+        }
+        System.out.println("Enter the address book name to sort the Entries: ");
+        displayAllAddressBooksName();
+        System.out.println("Your Entries: ");
+        String getBook = scanner.next();
+
+        ArrayList<AddressBookContacts> contactsInEachList = multipleAddressBookMap.get(getBook);
+
+      /*      contactsInEachList = multipleAddressBookMap.get(getBook);
+            personDetails = (String[]) contactsInEachList.toArray();
+            try {
+                CSVWriter writer = new CSVWriter(new FileWriter("CSVdatafiles\\person.csv"));
+                writer.writeNext(personDetails);
+                writer.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+*/
+      try (Writer writer = Files.newBufferedWriter(Paths.get("CSVdatafiles\\personDisplay.csv"))) {
+            StatefulBeanToCsvBuilder<AddressBookContacts> builder = new StatefulBeanToCsvBuilder<>(writer);
+            StatefulBeanToCsv<AddressBookContacts> beanWriter = builder.build();
+            beanWriter.write(contactsInEachList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     void editDetails() {
         System.out.println("\n You have chosen to update the existing contact details.\n");
@@ -118,12 +191,12 @@ public class ProcessAddressBook {
                     break;
                 case DisplayInConsole.EDIT_ZIP:
                     System.out.print("Enter contact's zip code : ");
-                    int zipCode = scanner.nextInt();
+                    String zipCode = scanner.next();
                     varEdit.setZipCode(zipCode);
                     break;
                 case DisplayInConsole.EDIT_PHONE_NUMBER:
                     System.out.print("Enter contact's phone number : ");
-                    long phoneNumber = scanner.nextLong();
+                    String phoneNumber = scanner.next();
                     varEdit.setPhoneNumber(phoneNumber);
                     break;
                 case DisplayInConsole.EDIT_EMAIL:
@@ -198,6 +271,7 @@ public class ProcessAddressBook {
         multipleAddressBookMap.forEach((key, value) -> System.out.println(key));
         return true;
     }
+
 
     void displayPersonUsingCityOrState() {
         if (multipleAddressBookMap.isEmpty()) {
@@ -303,7 +377,7 @@ public class ProcessAddressBook {
 
         newList.sort(java.util.Comparator.comparing(AddressBookContacts::getState));
 
-        System.out.println("printing Alphabetical order Sorted List using State :\n " + newList);
+        System.out.println("printing Alphabetical order Sorted List using State :\n " + newList.toString());
     }
 
     void sortByZip() {
